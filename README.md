@@ -5,7 +5,7 @@ This class can be used in a more "secure" way when secure mode is set to `true`:
 This mode forces to specify the `signature`, returned when encoding a string and before decoding and returning the result and it checks if the decoded signature is equal to the key used to decode the string
 
 **no secure mode:**
-```
+```js
 
 const obfuscator = new stringObfuscator( false ); // the Boolean used in the constructor defines the secure mode 
 
@@ -16,7 +16,7 @@ obfuscator.decode( string, key ) // returns decoded String
 
 ```
 **with secure mode:**
-```
+```js
 
 const obfuscator = new stringObfuscator();
 
