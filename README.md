@@ -1,16 +1,13 @@
 # string-obfuscator.js
 a simple way of encoding/decoding a string through a key
 
-This class can be used in a more "secure" way when secureMode is set to true
-
-### secure mode is set to true if no arguments were passed to the constructor:
-
+This class can be used in a more "secure" way when secure mode is set to `true`:
 This mode forces to specify the `signature`, returned when encoding a string and before decoding and returning the result and it checks if the decoded signature is equal to the key used to decode the string
 
-**no secure mode**
+**no secure mode:**
 ```
 
-const obfuscator = new stringObfuscator( false );
+const obfuscator = new stringObfuscator( false ); // the Boolean used in the constructor defines the secure mode 
 
 obfuscator.encode( string, key ) // returns String
 
@@ -18,7 +15,7 @@ obfuscator.decode( string, key ) // returns decoded String
 
 
 ```
-**with secure mode**
+**with secure mode:**
 ```
 
 const obfuscator = new stringObfuscator();
