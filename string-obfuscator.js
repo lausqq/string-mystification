@@ -19,7 +19,7 @@ class stringObfuscator {
       const newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
       const result = string.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("");
 
-      return window.secureMode === true ? { result: result, signature: key.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("") } : result
+      return window.STRING_OBFUSCATOR_SECUREMODE === true ? { result: result, signature: key.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("") } : result
 
     }
 
@@ -29,7 +29,7 @@ class stringObfuscator {
 
   decode( string, key ) {
 
-    if ( window.secureMode === false ) {
+    if ( window.STRING_OBFUSCATOR_SECUREMODE === false ) {
 
       if ( typeof string !== "undefined" && typeof key !== "undefined" ) {
 
@@ -144,7 +144,7 @@ class stringObfuscator {
 
   defineSecureMode(){
 
-  	const name = "secureMode",
+  	const name = "STRING_OBFUSCATOR_SECUREMODE",
   	value = this.__proto__.secureMode;
 
   	if ( typeof window.secureMode === "undefined" ) {
