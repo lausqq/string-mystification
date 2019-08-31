@@ -1,10 +1,10 @@
 class stringObfuscator {
 
-  constructor( secureMode ) {
+  constructor( securemode ) {
 
-    secureMode = typeof secureMode === "boolean" ? secureMode : true;
+    securemode = typeof securemode === "boolean" ? securemode : true;
     this.__proto__.supportedCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","à","è","é","ì","ò","ù","0","1","2","3","4","5","6","7","8","9",".",",",";",":","!","?","\"","'","\\","{","}","[","]","(",")","&","|","~","*","#","<",">","@","%","_","-","+","=","/","`","$","€","^"," ","  "];
-    this.__proto__.secureMode = secureMode;
+    this.__proto__.securemode = securemode;
     this.defineSecureMode()
 
   }
@@ -60,12 +60,12 @@ class stringObfuscator {
       key = this.stringFormatting( key ); 
       signature = this.stringFormatting( signature );
 
-	  newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
-	  const decodedSignature = signature.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
+      newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
+      const decodedSignature = signature.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
 
       if ( decodedSignature === key ) {
 
-	    return string.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
+      return string.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
 
       }
 
@@ -79,9 +79,9 @@ class stringObfuscator {
 
     if ( typeof string !== "undefined" ) {
 
-    	string = this.removeSpecialCharacters( String( string ) ); 
-    	this.checkForInvalidCharacters( string );
-    	return string
+      string = this.removeSpecialCharacters( String( string ) ); 
+      this.checkForInvalidCharacters( string ); 
+      return string
 
     }
 
@@ -89,9 +89,9 @@ class stringObfuscator {
 
   checkForInvalidCharacters( string ) {
 
-  	if ( typeof string !== "undefined" ) {
+    if ( typeof string !== "undefined" ) {
 
-  	  string.split("").forEach( v => { if ( this.supportedCharacters.indexOf( v ) === -1 ) { throw TypeError( `"${v}" is not a supported character` ) } } )
+      string.split("").forEach( v => { if ( this.supportedCharacters.indexOf( v ) === -1 ) { throw TypeError( `"${v}" is not a supported character` ) } } )
 
     }
 
@@ -128,7 +128,7 @@ class stringObfuscator {
 
       if ( result <= ( 25000000000 * 10 ) ) {
 
-      	return Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) 
+        return Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) 
 
       }
 
@@ -152,10 +152,10 @@ class stringObfuscator {
 
   defineSecureMode(){
 
-  	const name = "STRING_OBFUSCATOR_SECUREMODE",
-  	value = this.__proto__.secureMode;
+    const name = "STRING_OBFUSCATOR_SECUREMODE",
+    value = this.__proto__.securemode;
 
-  	if ( typeof window.STRING_OBFUSCATOR_SECUREMODE === "undefined" ) {
+    if ( typeof window.STRING_OBFUSCATOR_SECUREMODE === "undefined" ) {
 
       Object.defineProperty(window, name, { 
 
