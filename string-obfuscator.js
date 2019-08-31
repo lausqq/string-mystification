@@ -10,7 +10,7 @@ class stringObfuscator {
 
   encode( string, key ) {
 
-  	let noInvalidCharacters = true;
+    let noInvalidCharacters = true;
 
     if ( typeof string !== "undefined" && typeof key !== "undefined" ) {
 
@@ -34,7 +34,7 @@ class stringObfuscator {
 
   decode( string, key ) {
 
-  	let noInvalidCharacters = true;
+    let noInvalidCharacters = true;
 
     if ( this.secureMode === false ) {
 
@@ -53,8 +53,8 @@ class stringObfuscator {
 
           return string.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
 
-    	}
-        
+        }
+
       }
 
     }
@@ -63,7 +63,7 @@ class stringObfuscator {
 
   secureDecode( string, key, signature ) {
 
-  	let noInvalidCharacters = true;
+    let noInvalidCharacters = true;
 
     if ( typeof string !== "undefined" && typeof key !== "undefined" && typeof signature !== "undefined" ) {
 
@@ -75,17 +75,17 @@ class stringObfuscator {
 
       if ( noInvalidCharacters === true ) {
 
-	      this.secureMode = false;
-	      const decodedSignature = this.decode( signature, key );
+        this.secureMode = false;
+        const decodedSignature = this.decode( signature, key );
 
-	      if ( decodedSignature === key ) {
+        if ( decodedSignature === key ) {
 
-	        this.secureMode = false;
-	        return this.decode( string, key );
+          this.secureMode = false;
+          return this.decode( string, key );
 
-	      }
+        }
 
-  	  }
+      }
 
     }
 
