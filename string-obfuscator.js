@@ -147,7 +147,7 @@ class stringObfuscator {
   	const name = "STRING_OBFUSCATOR_SECUREMODE",
   	value = this.__proto__.secureMode;
 
-  	if ( typeof window.secureMode === "undefined" ) {
+  	if ( typeof window.STRING_OBFUSCATOR_SECUREMODE === "undefined" ) {
 
       Object.defineProperty(window, name, { 
 
