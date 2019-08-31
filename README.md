@@ -7,7 +7,7 @@ This mode forces to specify the `signature`, returned when encoding a string and
 **no secure mode:**
 ```js
 
-const obfuscator = new stringObfuscator( false ); // the Boolean used in the constructor defines the secure mode 
+const obfuscator = new stringObfuscator( false ); // secure mode = false
 
 obfuscator.encode( string, key ) // returns String
 
@@ -24,7 +24,7 @@ obfuscator.encode( string, key ) // returns Object {result:String,signature:Stri
 
 obfuscator.secureDecode( string, key, signature ) // only way of decoding a string
 
-obfuscator.decode( string, key ) // returns Undefined
+obfuscator.decode( string, key ) // returns Error
 
 
 ```
