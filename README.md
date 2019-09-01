@@ -29,3 +29,5 @@ obfuscator.decode( string, key ) // returns Error
 
 ```
 *if no arguments are passed to the constructor, the secure mode will set automatically*
+
+**max key length is approx. 40 characters, because similar keys could've had the same results**
