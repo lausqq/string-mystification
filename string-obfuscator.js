@@ -169,5 +169,3 @@ class stringObfuscator {
   }
 
 }
-
-const obfuscator = new stringObfuscator();
