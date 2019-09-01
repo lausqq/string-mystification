@@ -122,17 +122,17 @@ class stringObfuscator {
     if ( typeof key !== "undefined" ) {
 
       key = this.stringFormatting( key ); 
-      const characterOrderValue = Math.abs( Math.floor( key.split("").map( v => this.supportedCharacters.indexOf( v ) ).reduce( ( a, b ) =>  ( a * 1.74 + b * 1.2781954887218043 ) ) * 0.8 ) );
+      const characterOrderValue = Math.abs( Math.floor( key.split("").map( v => this.supportedCharacters.indexOf( v ) ).reduce( ( a, b ) =>  ( a * 1.75 + b * 1.305 ) ) * 0.88 ) );
 
       const result = Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) ;
 
       if ( result <= ( 25000000000 * 12 ) ) {
 
-        return Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) 
+        return result
 
       }
 
-      else {throw TypeError(`the key used to encode/decode is probably too long and will make your browser freeze {would take aprox. ${ ( result / 25000000000 ).toFixed(2) } seconds to iterate}`)}
+      else {throw TypeError(`the key used to encode/decode is probably too long and will make your browser freeze {would take approx. ${ ( result / 25000000000 ).toFixed(2) } seconds to iterate}`)}
 
     }
 
