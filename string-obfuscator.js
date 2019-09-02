@@ -1,3 +1,5 @@
+export {stringObfuscator};
+
 class stringObfuscator {
 
   constructor( securemode ) {
