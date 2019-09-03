@@ -4,8 +4,7 @@ class stringObfuscator {
 
     securemode = typeof securemode === "boolean" ? securemode : true;
     this.__proto__.supportedCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","à","è","é","ì","ò","ù","0","1","2","3","4","5","6","7","8","9",".",",",";",":","!","?","\"","'","\\","{","}","[","]","(",")","&","|","~","*","#","<",">","@","%","_","-","+","=","/","`","$","€","^"," ","  "];
-    this.__proto__.securemode = securemode;
-    this.defineSecureMode()
+    this.__proto__.getMode = () => securemode
 
   }
 
@@ -19,7 +18,7 @@ class stringObfuscator {
       const newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
       const result = string.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("");
 
-      return window.STRING_OBFUSCATOR_SECUREMODE === true ? { result: result, signature: key.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("") } : result
+      return this.getMode() === true ? { result: result, signature: key.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("") } : result
 
     }
 
@@ -29,7 +28,7 @@ class stringObfuscator {
 
   decode( string, key ) {
 
-    if ( window.STRING_OBFUSCATOR_SECUREMODE === false ) {
+    if ( this.getMode() === false ) {
 
       if ( typeof string !== "undefined" && typeof key !== "undefined" ) {
 
@@ -122,8 +121,8 @@ class stringObfuscator {
     if ( typeof key !== "undefined" ) {
 
       key = this.stringFormatting( key ); 
-      const characterOrderValue = Math.abs( Math.floor( key.split("").map( v => this.supportedCharacters.indexOf( v ) ).reduce( ( a, b ) =>  ( a * 1.75 + b * 1.305 ) ) * 0.88 ) );
 
+      const characterOrderValue = Math.abs( Math.floor( key.split("").map( v => this.supportedCharacters.indexOf( v ) ).reduce( ( a, b ) =>  ( a * 1.75 + b * 1.305 ) ) * 0.88 ) );
       const result = Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) ;
 
       if ( result <= ( 25000000000 * 12 ) ) {
@@ -145,24 +144,6 @@ class stringObfuscator {
       string = String( string );
 
       return string.replace( /(\r\n\t|\n|\r\t)/gm ,"")
-
-    }
-
-  }
-
-  defineSecureMode(){
-
-    const name = "STRING_OBFUSCATOR_SECUREMODE",
-    value = this.__proto__.securemode;
-
-    if ( typeof window.STRING_OBFUSCATOR_SECUREMODE === "undefined" ) {
-
-      Object.defineProperty( window, name, { 
-
-         get: function(){ return value },
-         set: function(){ throw TypeError( `invalid assignment to const \`${name}'` ) }
-
-      } )
 
     }
 
