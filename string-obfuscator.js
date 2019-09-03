@@ -1,10 +1,21 @@
 class stringObfuscator {
 
-  constructor( securemode ) {
+  constructor( seedKey, securemode ) {
+
+  	console.log( typeof seedKey !== "undefined" ? seedKey : 0 );
 
     securemode = typeof securemode === "boolean" ? securemode : true;
-    this.__proto__.supportedCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","à","è","é","ì","ò","ù","0","1","2","3","4","5","6","7","8","9",".",",",";",":","!","?","\"","'","\\","{","}","[","]","(",")","&","|","~","*","#","<",">","@","%","_","-","+","=","/","`","$","€","^"," ","  "];
-    this.__proto__.getMode = () => securemode
+    this.__proto__.supportedCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","à","è","é","ì","ò","ù","0","1","2","3","4","5","6","7","8","9",".",",",";",":","!","?","\"","'","\\","{","}","[","]","(",")","&","|","~","*","#","<",">","@","%","_","-","+","=","/","`","$","€","^"," ","  "]; 
+
+    this.__proto__.getMode = () => securemode;
+
+	this.__proto__.removeSpecialCharacters = string => {if(typeof string!=="undefined"){string=String(string);return string.replace( /(\r\n\t|\n|\r\t)/gm ,"")}}
+	this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){string=this.removeSpecialCharacters(String(string));this.checkForInvalidCharacters( string );return string}}
+	this.__proto__.checkForInvalidCharacters = string => {if(typeof string!=="undefined"){string.split("").forEach(v=>{if(this.supportedCharacters.indexOf(v)===-1){throw TypeError(`"${v}" is not a supported character`)}})}}
+
+	const constructorValue = typeof seedKey !== "undefined" ? this.getKeyValue( seedKey ) : 0;
+
+	this.__proto__.constructorSeed = () => constructorValue
 
   }
 
@@ -15,7 +26,7 @@ class stringObfuscator {
       string = this.stringFormatting( string );
       key = this.stringFormatting( key );
 
-      const newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
+      const newCharactersArray = this.returnNewArray( this.getKeyValue( key ) );
       const result = string.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("");
 
       return this.getMode() === true ? { result: result, signature: key.split("").map( v => newCharactersArray[ this.supportedCharacters.indexOf( v ) ] ).join("") } : result
@@ -35,7 +46,7 @@ class stringObfuscator {
         string = this.stringFormatting( string );
         key = this.stringFormatting( key );
 
-        const newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
+        const newCharactersArray = this.returnNewArray( this.getKeyValue( key ) );
 
         return string.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
 
@@ -59,7 +70,7 @@ class stringObfuscator {
       key = this.stringFormatting( key ); 
       signature = this.stringFormatting( signature );
 
-      newCharactersArray = this.recreateCharacterOrder( this.getKeyNumberValue( key ) );
+      newCharactersArray = this.returnNewArray( this.getKeyValue( key ) );
       const decodedSignature = signature.split("").map( v => this.supportedCharacters[ newCharactersArray.indexOf( v ) ] ).join("")
 
       if ( decodedSignature === key ) {
@@ -74,29 +85,7 @@ class stringObfuscator {
 
   }
 
-  stringFormatting( string ) {
-
-    if ( typeof string !== "undefined" ) {
-
-      string = this.removeSpecialCharacters( String( string ) ); 
-      this.checkForInvalidCharacters( string ); 
-      return string
-
-    }
-
-  }
-
-  checkForInvalidCharacters( string ) {
-
-    if ( typeof string !== "undefined" ) {
-
-      string.split("").forEach( v => { if ( this.supportedCharacters.indexOf( v ) === -1 ) { throw TypeError( `"${v}" is not a supported character` ) } } )
-
-    }
-
-  }
-
-  recreateCharacterOrder( keyNumberValue ) {
+  returnNewArray( keyNumberValue ) {
 
     const supportedCharacters = this.supportedCharacters;
 
@@ -116,14 +105,16 @@ class stringObfuscator {
 
   }
 
-  getKeyNumberValue( key ) {
+  getKeyValue( key ) {
 
     if ( typeof key !== "undefined" ) {
 
       key = this.stringFormatting( key ); 
 
       const characterOrderValue = Math.abs( Math.floor( key.split("").map( v => this.supportedCharacters.indexOf( v ) ).reduce( ( a, b ) =>  ( a * 1.75 + b * 1.305 ) ) * 0.88 ) );
-      const result = Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) ;
+      let result = Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) ;
+
+      result += typeof this.constructorSeed !== "undefined" ? this.constructorSeed() : 0;
 
       if ( result <= ( 25000000000 * 12 ) ) {
 
@@ -132,18 +123,6 @@ class stringObfuscator {
       }
 
       else {throw TypeError(`the key used to encode/decode is probably too long and will make your browser freeze {would take approx. ${ ( result / 25000000000 ).toFixed(2) } seconds to iterate}`)}
-
-    }
-
-  }
-
-  removeSpecialCharacters( string ) {
-
-    if ( typeof string !== "undefined" ) {
-
-      string = String( string );
-
-      return string.replace( /(\r\n\t|\n|\r\t)/gm ,"")
 
     }
 
