@@ -11,7 +11,7 @@ class stringObfuscator {
     this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){string=this.removeSpecialCharacters(String(string));this.checkForInvalidCharacters( string );return string}}
     this.__proto__.checkForInvalidCharacters = string => {if(typeof string!=="undefined"){string.split("").forEach(v=>{if(this.supportedCharacters.indexOf(v)===-1){throw TypeError(`"${v}" is not a supported character`)}})}}
 
-    const seed = this.getKeyValue( seedKey );
+    const seed = typeof seedKey !== "undefined" ? this.getKeyValue( seedKey ) : 0;
 
     this.constructorSeed = () => seed
 
