@@ -18,13 +18,24 @@ obfuscator.decode( string, key ) // returns decoded String
 **with secure mode:**
 ```js
 
-const obfuscator = new stringObfuscator();
+const obfuscator = new stringObfuscator(); // secure mode = true (by default)
 
 obfuscator.encode( string, key ) // returns Object {result:String,signature:String}
 
 obfuscator.secureDecode( string, key, signature ) // only way of decoding a string
 
 obfuscator.decode( string, key ) // returns Error
+
+
+```
+**constructor keys:**
+```js
+
+const obfuscator1 = new stringObfuscator( "Password1" );
+const obfuscator2 = new stringObfuscator( "Password2" );
+
+obfuscator1.encode( string, key ); // result A
+obfuscator2.encode( string, key ); // result B
 
 
 ```
