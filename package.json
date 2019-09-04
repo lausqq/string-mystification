@@ -1,0 +1,14 @@
+{
+  "name": "string-mystification",
+  "version": "1.0.0",
+  "description": "encoding and decoding string with keys and signatures",
+  "main": "string-mystification.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "string-mystification"
+  ],
+  "author": "lollerz",
+  "license": "MIT"
+}
