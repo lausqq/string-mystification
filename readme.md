@@ -1,4 +1,4 @@
-# string-mystification.j
+# string-mystification.js
 *a simple way of encoding/decoding a string with keys and signatures*
 
 ```
