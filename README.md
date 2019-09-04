@@ -22,7 +22,7 @@ const obfuscator = new stringObfuscator(); // secure mode = true (by default)
 
 obfuscator.encode( string, key ) // returns Object {result:String,signature:String}
 
-obfuscator.secureDecode( string, key, signature ) // only way of decoding a string
+obfuscator.safelyDecode( string, key, signature ) // only way of decoding a string
 
 obfuscator.decode( string, key ) // returns Error
 
@@ -33,11 +33,12 @@ obfuscator.decode( string, key ) // returns Error
 const string = "abc",
 key = "123",
 obfuscator1 = new stringObfuscator( "Password1" ),
-obfuscator2 = new stringObfuscator( "Password2" );
+obfuscator2 = new stringObfuscator( 123 ); // the seed can be set to a number too
 
 obfuscator1.encode( string, key ); // result A
 obfuscator2.encode( string, key ); // result B
 
+// result A and result B are completely different
 
 ```
 *if no arguments are passed to the constructor, the secure mode will set automatically*
