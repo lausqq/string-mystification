@@ -22,7 +22,7 @@ const obfuscator = new stringObfuscator(); // secure mode = true (by default)
 
 obfuscator.encode( string, key ) // returns Object {result:String,signature:String}
 
-obfuscator.safelyDecode( string, key, signature ) // only way of decoding a string
+obfuscator.safelyDecode( string, key, signature ) // only way of decoding a string while safe mode is true
 
 obfuscator.decode( string, key ) // returns Error
 
