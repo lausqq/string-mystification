@@ -2,7 +2,7 @@
 *a simple way of encoding/decoding a string with keys and signatures*
 
 ```
-npm install string-mistification
+npm install string-mystification
 ```
 
 This class can be used in a more "secure" way when secure mode is set to `true`:
