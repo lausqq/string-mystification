@@ -7,13 +7,13 @@ class stringObfuscator {
 
     this.getMode = () => securemode;
 
-	this.__proto__.removeSpecialCharacters = string => {if(typeof string!=="undefined"){string=String(string);return string.replace( /(\r\n\t|\n|\r\t)/gm ,"")}}
-	this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){string=this.removeSpecialCharacters(String(string));this.checkForInvalidCharacters( string );return string}}
-	this.__proto__.checkForInvalidCharacters = string => {if(typeof string!=="undefined"){string.split("").forEach(v=>{if(this.supportedCharacters.indexOf(v)===-1){throw TypeError(`"${v}" is not a supported character`)}})}}
+    this.__proto__.removeSpecialCharacters = string => {if(typeof string!=="undefined"){string=String(string);return string.replace( /(\r\n\t|\n|\r\t)/gm ,"")}}
+    this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){string=this.removeSpecialCharacters(String(string));this.checkForInvalidCharacters( string );return string}}
+    this.__proto__.checkForInvalidCharacters = string => {if(typeof string!=="undefined"){string.split("").forEach(v=>{if(this.supportedCharacters.indexOf(v)===-1){throw TypeError(`"${v}" is not a supported character`)}})}}
 
-	const seed = this.getKeyValue( seedKey );
+    const seed = this.getKeyValue( seedKey );
 
-	this.constructorSeed = () => seed
+    this.constructorSeed = () => seed
 
   }
 
