@@ -30,9 +30,10 @@ obfuscator.decode( string, key ) // returns Error
 ```
 **constructor keys:**
 ```js
-
-const obfuscator1 = new stringObfuscator( "Password1" );
-const obfuscator2 = new stringObfuscator( "Password2" );
+const string = "abc",
+key = "123",
+obfuscator1 = new stringObfuscator( "Password1" ),
+obfuscator2 = new stringObfuscator( "Password2" );
 
 obfuscator1.encode( string, key ); // result A
 obfuscator2.encode( string, key ); // result B
