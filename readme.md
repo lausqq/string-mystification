@@ -1,5 +1,9 @@
-# string-mystificator.js
+# string-mystification.js
 a simple way of encoding/decoding a string with keys and signatures
+
+```
+npm install string-mystification
+```
 
 This class can be used in a more "secure" way when secure mode is set to `true`:
 This mode forces to specify the `signature`, returned when encoding a string and before decoding and returning the result and it checks if the decoded signature is equal to the key used to decode the string
