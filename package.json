@@ -1,6 +1,6 @@
 {
   "name": "string-mystification",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "encoding and decoding string with keys and signatures",
   "main": "string-mystification.js",
   "scripts": {
