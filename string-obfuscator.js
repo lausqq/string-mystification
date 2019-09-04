@@ -2,20 +2,18 @@ class stringObfuscator {
 
   constructor( seedKey, securemode ) {
 
-  	console.log( typeof seedKey !== "undefined" ? seedKey : 0 );
-
     securemode = typeof securemode === "boolean" ? securemode : true;
     this.__proto__.supportedCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","à","è","é","ì","ò","ù","0","1","2","3","4","5","6","7","8","9",".",",",";",":","!","?","\"","'","\\","{","}","[","]","(",")","&","|","~","*","#","<",">","@","%","_","-","+","=","/","`","$","€","^"," ","  "]; 
 
-    this.__proto__.getMode = () => securemode;
+    this.getMode = () => securemode;
 
 	this.__proto__.removeSpecialCharacters = string => {if(typeof string!=="undefined"){string=String(string);return string.replace( /(\r\n\t|\n|\r\t)/gm ,"")}}
 	this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){string=this.removeSpecialCharacters(String(string));this.checkForInvalidCharacters( string );return string}}
 	this.__proto__.checkForInvalidCharacters = string => {if(typeof string!=="undefined"){string.split("").forEach(v=>{if(this.supportedCharacters.indexOf(v)===-1){throw TypeError(`"${v}" is not a supported character`)}})}}
 
-	const constructorValue = typeof seedKey !== "undefined" ? this.getKeyValue( seedKey ) : 0;
+	const seed = this.getKeyValue( seedKey ) ;
 
-	this.__proto__.constructorSeed = () => constructorValue
+	this.constructorSeed = () => seed
 
   }
 
@@ -114,7 +112,7 @@ class stringObfuscator {
       const characterOrderValue = Math.abs( Math.floor( key.split("").map( v => this.supportedCharacters.indexOf( v ) ).reduce( ( a, b ) =>  ( a * 1.75 + b * 1.305 ) ) * 0.88 ) );
       let result = Math.floor( ( key.split("").map( v => this.supportedCharacters.indexOf( v ) + 1 ).reduce( ( a, b ) => a + b ) + characterOrderValue ) * 1 ) ;
 
-      result += typeof this.constructorSeed !== "undefined" ? this.constructorSeed() : 0;
+      result += typeof this.constructorSeed !== "undefined" ? this.constructorSeed() * 3.14 : 0;
 
       if ( result <= ( 25000000000 * 12 ) ) {
 
