@@ -7,16 +7,14 @@ class stringMystification {
     const supportedCharacters = " \t\r\nABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzàèéìòùÀÈÉÌÒÙабвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789.,:;!?\"\'\`/|\\()[]{}&~*#<>@%_-+=$€%£^".split(""); 
 
     this.__proto__.getSupportedCharacters = () => supportedCharacters;
-    this.__proto__.getHexSpaceIllegalCharacters = () => "0123456789abcdef".split("")
 
-    this.__proto__.removeSpecialCharacters = string => {if(typeof string!=="undefined"){string=String(string);return string.replace(/(\r\n\t|\n|\r\t)/gm ,"")}}
     this.__proto__.checkForInvalidCharacters = string => {if(typeof string!=="undefined"){string.split("").forEach(v=>{if(this.getSupportedCharacters().indexOf(v)===-1){throw TypeError(`"${v}" is not a supported character.`)}})}}
-    this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){/*string=this.removeSpecialCharacters(String(string));*/this.checkForInvalidCharacters(string);return string.normalize()}}
+    this.__proto__.stringFormatting = string => {if(typeof string!=="undefined"){this.checkForInvalidCharacters(string);return string.normalize()}}
 
     this.__proto__.returnNewArray = (keyNumberValue) => {if(typeof keyNumberValue!=="undefined"&&typeof Number(keyNumberValue)==="number"){const supportedCharacters=this.getSupportedCharacters();keyNumberValue=Number(keyNumberValue);while(keyNumberValue>=supportedCharacters.length){keyNumberValue=Math.abs(keyNumberValue-supportedCharacters.length+1)}return[...supportedCharacters.slice(keyNumberValue,supportedCharacters.length-1),...supportedCharacters.slice(0,keyNumberValue)]}}
     
     seed = typeof seed === "string" ? this.keyValueEstimator( seed ) : seed;
-    seed = typeof seed === "number" && Number.isInteger( seed ) && seed <= 100000000 ? seed : 0;
+    seed = typeof seed === "number" && Number.isInteger( seed ) ? seed : 0;
 
     this.getSecureMode = () => securemode;
     this.getSeed = () => seed;
@@ -24,27 +22,6 @@ class stringMystification {
   }
 
   keyValueEstimator(key) {
-
-    /*if(typeof key!=="undefined"){
-
-      key=this.stringFormatting(key);
-      const characterOrderValue=Math.abs(Math.floor(key.split("").map(v=>this.getSupportedCharacters().indexOf(v)).reduce((a,b)=>(a*1.75/b*1.305))*0.88));
-      let result=Math.floor((key.split("").map(v=>this.getSupportedCharacters().indexOf(v)+1).reduce((a,b)=>a+b)+characterOrderValue));
-      result+=typeof this.getSeed!=="undefined"?this.getSeed()*Math.PI:0;
-
-      if(result<=(25000000000*12)){
-
-        return Math.floor(result)
-
-      }
-
-      else{
-
-        throw TypeError(`the key used to encode/decode is too long and will make your browser freeze {would take approx. ${(result/25000000000).toFixed(2)} seconds to iterate}`)
-
-      }
-
-    }*/
 
     if (typeof key=="string"&&key.length <= 20){
 
@@ -57,26 +34,13 @@ class stringMystification {
 
       let count = unique;
 
-      /*while(temp_unique > len) {
-
-        temp_unique /= len;
-        count += len;
-
-      }*/
-
-      /*const r = reduce(count,len);
-      count = r !== 0 ? r : count;*/
-
       while (count >= len) {
         count = reduce(count,len);
       }
 
       const final = Math.abs(unique-count);
 
-      //const possible = res.reduce((a,b) => String(a) + String(b)); 
-      //const result = key.length == 1 ? possible : possible - order;
-
-      return /*{unique,count,final}*/ typeof this.getSeed == "function" ? Math.floor(count + this.getSeed() * Math.PI) : Math.floor(count);
+      return typeof this.getSeed == "function" ? Math.floor(count + this.getSeed() * Math.PI) : Math.floor(count);
 
     } 
 
@@ -98,29 +62,21 @@ class stringMystification {
 
   }
 
-  hexEncode( string, key,/* spaces,*/ times ) {
+  hexEncode( string, key, times ) {
 
     if ( typeof string !== "undefined" && typeof key !== "undefined" ) {
-
-      //const DEBUG = [];
 
       times = typeof times !== "undefined" ? times : 1;
 
       const res = this.encode( string, key );
 
-      //DEBUG.push([string,key]);
-
-      //DEBUG.push([res.result,res.signature]);
-      
       for (let i = 0; i < times; i++) {
 
-        res.result = this.string2hex( res.result/*, spaces*/ );
-        res.signature = this.string2hex( res.signature/*, spaces*/ );
-        //DEBUG.push([res.result,res.signature]);
+        res.result = this.string2hex( res.result );
+        res.signature = this.string2hex( res.signature );
 
       }
 
-      //console.log(DEBUG);
       return res;
 
     }
@@ -148,33 +104,23 @@ class stringMystification {
 
   }
 
-  hexDecode( string, key, signature,/* spaces,*/ times ) {
+  hexDecode( string, key, signature, times ) {
 
     if ( typeof string !== "undefined" && typeof key !== "undefined" && typeof signature !== "undefined" ) {
 
       const DEBUG = [];
 
-      const res = { result: this.hex2string(string/*,spaces*/), signature: this.hex2string(signature/*,spaces*/) };
+      const res = { result: this.hex2string(string), signature: this.hex2string(signature) };
       times = typeof times !== "undefined" ? times : 1;
-      DEBUG.push([string,signature]);
-      DEBUG.push([res.result,res.signature]);
 
       for (let i = 0; i < times - 1; i++) {
 
-        res.result = this.hex2string(res.result/*,spaces*/);
-        res.signature = this.hex2string(res.signature/*,spaces*/);
-        DEBUG.push([res.result,res.signature]);
+        res.result = this.hex2string(res.result);
+        res.signature = this.hex2string(res.signature);
 
       }
 
-      //console.log(res);
-
-      const final = this.safelyDecode( res.result, key, res.signature );
-
-      DEBUG.push([final,res.result,res.signature]);
-
-      console.log(DEBUG);
-      return /*final*/ this.safelyDecode( res.result, key, res.signature );
+      return this.safelyDecode( res.result, key, res.signature );
 
     }
 
@@ -199,27 +145,19 @@ class stringMystification {
 
       }
 
-      else {
-
-        console.error("The signature doesn't match the key!");
-
-      }
-
     }
 
   }
 
-  string2hex( text/*, spaces*/ ) {
+  string2hex( text ) {
 
     let flag = true,
     illegal = this.getHexSpaceIllegalCharacters();
 
-    const spaces = /*typeof spaces=="string" ? spaces : "."*/ "";
+    const spaces = "";
 
     if (typeof text == "string") {
 
-      /*spaces.split("").forEach(v=>{if(illegal.includes(v)){flag = false;}});
-      spaces = flag === true ? spaces : ".";*/
       const chars = this.getSupportedCharacters();
       text = text.split("").map(v => {
         const hex = chars.indexOf(v).toString(16);
@@ -248,19 +186,17 @@ class stringMystification {
 
   }
 
-  hex2string( text/*, spaces*/ ) {
+  hex2string( text ) {
 
     let flag = true,
     illegal = this.getHexSpaceIllegalCharacters();
 
-    const spaces = /*typeof spaces=="string" ? spaces : "."*/ "";
+    const spaces = "";
 
     if (typeof text == "string") {
 
-      /*spaces.split("").forEach(v=>{if(illegal.includes(v)){flag = false;}});
-      spaces = typeof spaces=="string" ? spaces : ".";*/
       const chars = this.getSupportedCharacters();
-      text = /*spaces == "" ?*/ text.match(/.{1,2}/g)/* : text.split(spaces)*/;
+      text = text.match(/.{1,2}/g);
       text = text.map(v => {
         return chars[this.hex2num(v)];
       });
